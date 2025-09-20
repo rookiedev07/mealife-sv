@@ -3,7 +3,8 @@ import React, { useState, useEffect } from "react";
 import cover from "../assets/banner.jpg";
 import nopfp from "../assets/restaurant-placeholder.jpg";
 import axios from 'axios';
-import addNotification from 'react-push-notification';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const ProfilePage = () => {
     const location = useLocation();
@@ -146,12 +147,11 @@ const ProfilePage = () => {
                     },
                 });
 
-                addNotification({
-                    title: 'New Reservation Request',
-                    message: `New Reservation for ${bookingDetails.people} people on ${bookingDetails.date} at ${bookingDetails.time}.`,
-                    duration: 5000,
-                    logo: nopfp,
-                    native: true,
+                // Use react-toastify notification here instead of react-push-notification
+                toast.info(`New Reservation for ${bookingDetails.people} people on ${bookingDetails.date} at ${bookingDetails.time}.`, {
+                    autoClose: 5000,
+                    pauseOnHover: true,
+                    closeOnClick: true,
                 });
 
                 alert('Booking Request Sent, Waiting for Response!');
@@ -294,6 +294,9 @@ const ProfilePage = () => {
                     )}
                 </div>
             </div>
+            {/* ToastContainer should be placed once in your app, 
+                but adding here for completeness if you don't have it globally */}
+            <ToastContainer />
         </div>
     );
 };
